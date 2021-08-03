@@ -8,6 +8,13 @@ $date = str_replace(' at ', ' ', $json->date);
 $start = 0;
 $end = 0;
 
+function saveFile($output) {
+    $fh = fopen('./dates.json', 'w');
+    fwrite($fh, json_encode($output));
+    fclose($fh);
+    echo 'Updated file.';
+}
+
 if(strpos($tweet, 'neutral ground parking allowed until') !== false || strpos($tweet, 'neutral ground parking is allowed until') !== false){
     $start = strtotime($date);
     if(strpos($tweet, 'further notice') > -1){
@@ -20,9 +27,10 @@ if(strpos($tweet, 'neutral ground parking allowed until') !== false || strpos($t
         $end = strtotime($e_array[1] . ' ' . $e_array[0]);
     }
     echo "Start: " . $date . "\n";
-    echo "End: " . $e_array[1] . ' ' . $e_array[0] . "\n";
+    echo "End: " . $e_array[1] . " " . $e_array[0] . "\n";
 
     $output = array("start" => $start, "end" => $end);
+    saveFile($output);
 }else if(strpos($tweet, 'back into effect at') !== false){
     $str_start = strpos($tweet, 'effect at ') + 10;
     $str_end = strpos($tweet, '. ');
@@ -32,9 +40,10 @@ if(strpos($tweet, 'neutral ground parking allowed until') !== false || strpos($t
     $current = json_decode(file_get_contents('./dates.json'));
 
     echo "Start: " . $current->start . "\n";
-    echo "End: " . $e_array[1] . ' ' . $e_array[0] . "\n";
+    echo "End: " . $e_array[1] . " " . $e_array[0] . "\n";
 
     $output = array("start" => $current->start, "end" => $end);
+    saveFile($output);
 }else if(strpos($tweet, 'back into effect today') !== false){
     $str_start = strpos($tweet, 'effect today at ') + 16;
     $str_end = strpos($tweet, '. ');
@@ -44,13 +53,9 @@ if(strpos($tweet, 'neutral ground parking allowed until') !== false || strpos($t
     $current = json_decode(file_get_contents('./dates.json'));
 
     echo "Start: " . $current->start . "\n";
-    echo "End: " . $e_array[1] . ' ' . $e_array[0] . "\n";
-
+    echo "End: " . $e_array[1] . " " . $e_array[0] . "\n";
     $output = array("start" => $current->start, "end" => $end);
+    saveFile($output);
 }else{
     echo 'no matching text in tweet: ' . $tweet;
 }
-
-$fh = fopen('./dates.json', 'w');
-fwrite($fh, json_encode($output));
-fclose($fh);
