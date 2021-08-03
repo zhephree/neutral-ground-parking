@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set('America/Chicago');
+
 $json = json_decode(file_get_contents('./dates.json'));
 $now = time();
 if($now >= $json->start && $now < $json->end){

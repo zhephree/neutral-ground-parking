@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Chicago');
 $json = json_decode(file_get_contents('php://input'));
 $tweet = strtolower($json->tweet);
 $url = $json->url;
@@ -7,7 +8,7 @@ $date = str_replace(' at ', ' ', $json->date);
 $start = 0;
 $end = 0;
 
-if(strpos($tweet, 'neutral ground parking allowed until') > -1){
+if(strpos($tweet, 'neutral ground parking allowed until') !== false || strpos($tweet, 'neutral ground parking is allowed until') !== false){
     $start = strtotime($date);
     if(strpos($tweet, 'further notice') > -1){
         $end = 9999999999;
@@ -22,7 +23,7 @@ if(strpos($tweet, 'neutral ground parking allowed until') > -1){
     echo "End: " . $e_array[1] . ' ' . $e_array[0] . "\n";
 
     $output = array("start" => $start, "end" => $end);
-}else if(strpos($tweet, 'back into effect at') > -1){
+}else if(strpos($tweet, 'back into effect at') !== false){
     $str_start = strpos($tweet, 'effect at ') + 10;
     $str_end = strpos($tweet, '. ');
     $end_date = substr($tweet, $str_start, $str_end - $str_start);
@@ -34,7 +35,7 @@ if(strpos($tweet, 'neutral ground parking allowed until') > -1){
     echo "End: " . $e_array[1] . ' ' . $e_array[0] . "\n";
 
     $output = array("start" => $current->start, "end" => $end);
-}else if(strpos($tweet, 'back into effect today') > -1){
+}else if(strpos($tweet, 'back into effect today') !== false){
     $str_start = strpos($tweet, 'effect today at ') + 16;
     $str_end = strpos($tweet, '. ');
     $end_date = substr($tweet, $str_start, $str_end - $str_start);
@@ -46,6 +47,8 @@ if(strpos($tweet, 'neutral ground parking allowed until') > -1){
     echo "End: " . $e_array[1] . ' ' . $e_array[0] . "\n";
 
     $output = array("start" => $current->start, "end" => $end);
+}else{
+    echo 'no matching text in tweet: ' . $tweet;
 }
 
 $fh = fopen('./dates.json', 'w');
