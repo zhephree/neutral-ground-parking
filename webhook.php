@@ -100,7 +100,7 @@ if(contains('lifted') || contains('allowed')){
         $end_day = str_replace('.','', word_after($end_time));
 
         if($end_day == 'on'){
-            $end_day = str_replace('.','', word_after($end_time . ' on'));
+            $end_day = str_replace(['.',','],'', word_after($end_time . ' on'));
         }
 
         if(in_array(strtolower($end_day), ['tomorrow', 'tmrw', 'tom', 'tmrw.', 'tom.'])){
@@ -112,8 +112,34 @@ if(contains('lifted') || contains('allowed')){
         }
     }else if(contains('further', $end_time)){
         $end_date = 9999999999;
-    }else{
-        $end_date = 9999999999; //i know...
+    }else{ 
+        $orig_end_time = $end_time;
+        $end_time = str_replace(['.', ','], '', $end_time);
+        if(in_array(strtolower($end_time), ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sun', 'mon', 'tues', 'wed', 'thur', 'fri', 'sat'])){
+            $end_day = $end_time;
+            $end_month = word_after($orig_end_time);
+
+            if(in_array(strtolower($end_month), ['january', 'jan', 'february', 'feb', 'march', 'april', 'may', 'june', 'july', 'august', 'aug', 'september', 'sept', 'october', 'oct', 'november', 'nov', 'december', 'dec'])){
+                $end_dom = word_after($end_month);
+                if(is_numeric(intval($end_dom))){ //is a date
+                    if(word_after($end_dom) == 'at'){
+                        $end_time = word_after(word_after($end_dom));
+                    }else{ 
+                        $end_dom = '';
+                        $end_time = '00:00:00';
+                    }
+                }else{ 
+                    $end_dom = '';
+                    $end_time = '00:00:00';
+                }
+            }else{
+                $end_time = '00:00:00';
+            }
+
+            $end_date = strtotime($end_day . ' ' .$end_time);
+        }else{
+            $end_date = 9999999999; //i know...
+        }
     }
 }else if(contains('back into effect') || contains('back in effect')){
     $start_time = date('ga');
