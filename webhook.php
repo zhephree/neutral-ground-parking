@@ -63,6 +63,8 @@ if(contains('lifted') || contains('allowed')){
     }else if(contains('starting at')){
         $start_time = word_after('starting at');
         // $start_date = strtotime('today ' . $start_time);    
+    }else if(contains('pm', word_after('allowed')) || contains('am', word_after('allowed'))){
+        $start_time = word_after('allowed');
     }else{
         $start_time = date('ga');
         $start_date = time();
