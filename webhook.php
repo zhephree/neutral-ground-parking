@@ -1,5 +1,12 @@
 <?php
 date_default_timezone_set('America/Chicago');
+function saveFile($output) {
+    $fh = fopen('./dates.json', 'w');
+    fwrite($fh, json_encode($output));
+    fclose($fh);
+    echo 'Updated file.';
+}
+
 if(isset($_GET['start_time'])){
     $start_time = $_GET['start_time'];
     $start_day = $_GET['start_day'];
@@ -34,12 +41,6 @@ if(isset($_GET['start_time'])){
 
     $start = 0;
     $end = 0;
-    function saveFile($output) {
-        $fh = fopen('./dates.json', 'w');
-        fwrite($fh, json_encode($output));
-        fclose($fh);
-        echo 'Updated file.';
-    }
 
     function contains($needle, $haystack = null){
         global $tweet;
