@@ -59,9 +59,15 @@ if(isset($_GET['start_time'])){
 
     function word_after($needle){
         global $tweet;
-        $s = strpos($tweet, $needle . ' ') + strlen($needle) + 1;
-        $se = strpos($tweet, ' ', $s);
-        return substr($tweet, $s, $se - $s);
+        $needle = strtolower($needle);
+        $haystack = strtolower($tweet);
+        $pos = strpos($haystack, $needle . ' ');
+        if ($pos === false) return null;
+
+        $s = $pos + strlen($needle) + 1;
+        $se = strpos($haystack, ' ', $s);
+        if ($se === false) return substr($haystack, $s);
+        return substr($haystack, $s, $se - $s);
     }
 
     function contains_number($str){
