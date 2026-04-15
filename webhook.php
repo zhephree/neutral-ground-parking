@@ -107,7 +107,7 @@ if(isset($_GET['start_time'])){
 
         if(in_array(strtolower($start_day), ['tomorrow', 'tmrw', 'tom', 'tmrw.', 'tom.'])){
             $start_date = strtotime('tomorrow ' . $start_time);
-        }else if(in_array(strtolower($start_day), ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sun', 'mon', 'tues', 'wed', 'thur', 'fri', 'sat'])){
+        }else if(in_array(strtolower($start_day), ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sun', 'mon', 'tues', 'wed', 'thur', 'thu', 'fri', 'sat'])){
             $start_date = strtotime($start_day . ' ' . $start_time);
         }else {
             $start_day = 'today';
@@ -136,7 +136,7 @@ if(isset($_GET['start_time'])){
 
             if(in_array(strtolower($end_day), ['tomorrow', 'tmrw', 'tom', 'tmrw.', 'tom.'])){
                 $end_date = strtotime('tomorrow ' . $end_time);
-            }else if(in_array(strtolower($end_day), ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sun', 'mon', 'tues', 'wed', 'thur', 'fri', 'sat'])){
+            }else if(in_array(strtolower($end_day), ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sun', 'mon', 'tues', 'wed', 'thur', 'thu', 'fri', 'sat'])){
                 $end_date = strtotime($end_day . ' ' . $end_time);
             }else {
                 $end_date = strtotime('today ' . $end_time);
@@ -146,7 +146,7 @@ if(isset($_GET['start_time'])){
         }else{ 
             $orig_end_time = $end_time;
             $end_time = str_replace(['.', ','], '', $end_time);
-            if(in_array(strtolower($end_time), ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sun', 'mon', 'tues', 'wed', 'thur', 'fri', 'sat'])){
+            if(in_array(strtolower($end_time), ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sun', 'mon', 'tues', 'wed', 'thur', 'thu', 'fri', 'sat'])){
                 $end_day = $end_time;
                 $end_month = word_after($orig_end_time);
 
@@ -195,7 +195,7 @@ if(isset($_GET['start_time'])){
 
         if(in_array(strtolower($end_day), ['tomorrow', 'tmrw', 'tom', 'tmrw.', 'tom.'])){
             $end_date = strtotime('tomorrow ' . $end_time);
-        }else if(in_array(strtolower($end_day), ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sun', 'mon', 'tues', 'wed', 'thur', 'fri', 'sat'])){
+        }else if(in_array(strtolower($end_day), ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sun', 'mon', 'tues', 'wed', 'thur', 'thu', 'fri', 'sat'])){
             $end_date = strtotime($end_day . ' ' . $end_time);
         }else {
             $end_date = strtotime('today ' . $end_time);
