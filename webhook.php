@@ -44,16 +44,20 @@ if(isset($_GET['start_time'])){
 
     function contains($needle, $haystack = null){
         global $tweet;
-        if(!isset($haystack) || is_null($haystack)){
+        if(func_num_args() < 2){
             $haystack = $tweet;
+        }elseif(is_null($haystack)){
+            return false;
         }
         return strpos(strtolower($haystack), strtolower($needle)) !== false;
     }
 
     function where($needle, $haystack = null){
         global $tweet;
-        if(!isset($haystack) || is_null($haystack)){
+        if(func_num_args() < 2){
             $haystack = $tweet;
+        }elseif(is_null($haystack)){
+            return false;
         }
         return strpos(strtolower($haystack), strtolower($needle));
     }
